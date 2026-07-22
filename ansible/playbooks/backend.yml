@@ -34,6 +34,7 @@
         name: prometheus
         image: prom/prometheus:v2.53.5
         state: started
+	restart: true
         restart_policy: always
         ports:
           - "9090:9090"
