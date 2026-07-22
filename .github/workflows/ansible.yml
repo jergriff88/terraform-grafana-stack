@@ -12,6 +12,7 @@ jobs:
   deploy:
     name: Deploy monitoring stack
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ansible
@@ -34,5 +35,15 @@ jobs:
             --output text > .keys/monitoring.pem
           chmod 600 .keys/monitoring.pem
 
+      - name: Verify dynamic inventory
+        run: |
+          ansible-inventory \
+            -i inventory/aws_ec2.yml \
+            --graph
+
       - name: Run Ansible playbook
-        run: ansible-playbook playbooks/site.yml
+        run: |
+          ansible-playbook \
+            -i inventory/aws_ec2.yml \
+            playbooks/site.yml
+            
